@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Challenge</title>
+    <meta name="description" content="Find b2flush and uncover their secret.">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>OSINT Challenge: Find "Nullbytes1276"</h1>
+    <p>There's someone out there using the nickname "Nullbytes1276" and he/she is spamming the company. Can you find the identity of Nullbyte1276?</p>
+    
+    <!-- Look at www.linkedin.com/in/jean-michel-drost-59573b259 for possible connections -->
+
+    <script>
+        // JavaScript Console Clue
+   
+
+        // Delayed Hint
+        setTimeout(() => {
+            let secretDiv = document.createElement("div");
+            secretDiv.innerHTML = "<p>Clue: Not everything is in plain sight. Look deeper.</p>";
+            document.body.appendChild(secretDiv);
+        }, 10000); // Appears after 10 seconds
+
+        // A fake login prompt (not functional, just a decoy)
+        function fakeLogin() {
+            alert("Wrong place to look! Try somewhere else.");
+        }
+    </script>
+
+    <button onclick="fakeLogin()">Login</button>
+    
+    <p id="hidden">Rm9sbG93IHRoZSB0aHJlYWQgb24gU2hpdHR5U3lzYWRtaW4gdG8gZmluZCBOdWxsYnl0ZXMxMjc2LiBUaGUgcGFzc3dvcmQgaXMgc29tZXRoaW5nIGludGVyZXN0aW5n</p> 
+   
+</body>
+</html>
