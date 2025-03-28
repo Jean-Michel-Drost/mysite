@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <title>Protected Page</title>
 </head>
 <body>
+    <h2>Enter Password</h2>
     <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="decryptContent()">Unlock</button>
-    <div id="content" style="display: none;"></div>
-    
+    <button onclick="checkPassword()">Submit</button>
+    <p id="message"></p>
+
     <script>
-        var encryptedData = "U2FsdGVkX19EEb5jJUMxbzJ3reTxvEPmdCg+zQ7G/iA="; // Replace with your actual encrypted content
+        var secretKey = "mySecretKey123"; // Must match encryption key
+        var encryptedStoredPassword = "nHzhZ4nLFWHRuVUSwYMJaQ=="; // Paste the encrypted password
 
-        function decryptContent() {
-            var pass = document.getElementById("password").value;
-            try {
-                var bytes = CryptoJS.AES.decrypt(encryptedData, pass);
-                var decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+        function checkPassword() {
+            var userInput = document.getElementById("password").value;
 
-                if (!decryptedText) {
-                    alert("Incorrect password!");
-                    return;
-                }
+            // Decrypt with the same fixed IV
+            var iv = CryptoJS.enc.Hex.parse("00000000000000000000000000000000");
+            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, CryptoJS.enc.Utf8.parse(secretKey), {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }).toString(CryptoJS.enc.Utf8);
 
-                document.getElementById("content").innerHTML = decryptedText;
-                document.getElementById("content").style.display = "block";
-            } catch (e) {
-                alert("Decryption failed!");
+            console.log("Decrypted Password:", decryptedPassword); // Debugging
+
+            if (userInput === decryptedPassword) {
+                document.getElementById("message").innerText = "✅ Access Granted!";
+                document.body.innerHTML += "<p>Welcome! Here is the protected content.</p>";
+            } else {
+                document.getElementById("message").innerText = "❌ Wrong password!";
             }
         }
     </script>
