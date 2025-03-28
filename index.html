@@ -40,6 +40,11 @@
             const passwordInput = document.getElementById('passwordInput').value;
             const message = document.getElementById('message');
 
+            if (!passwordInput) {
+                message.textContent = "Please enter a password!";
+                return;
+            }
+
             // Generate a hash of the entered password using SHA-256
             const hashedInput = await sha256(passwordInput);
 
