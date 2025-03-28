@@ -13,15 +13,15 @@
     <p id="message"></p>
 
     <script>
-        var secretKey = "mySecretKey123456"; // Must match the key used for encryption
+        var secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456"); // Must match the key used for encryption
         var iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // Must match the IV used for encryption
-        var encryptedStoredPassword = "3SnO6S3ykZZimQwpJQTJfg=="; // Replace this with the output from encrypt.js
+        var encryptedStoredPassword = "3SnO6S3ykZZimQwpJQTJfg=="; // Your provided encrypted password
 
         function checkPassword() {
             var userInput = document.getElementById("password").value;
 
             // Decrypt the stored password
-            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, CryptoJS.enc.Utf8.parse(secretKey), {
+            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
                 iv: iv,
                 mode: CryptoJS.mode.CBC,
                 padding: CryptoJS.pad.Pkcs7
