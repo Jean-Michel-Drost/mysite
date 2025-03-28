@@ -13,15 +13,15 @@
     <p id="message"></p>
 
     <script>
-        var secretKey = "mySecretKey123"; // Must match encryption key
-        var encryptedStoredPassword = "nHzhZ4nLFWHRuVUSwYMJaQ=="; // Paste the encrypted password
+        var secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456"); // Same key used in encryption
+        var iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // Must match encryption IV
+        var encryptedStoredPassword = "U2FsdGVkX1+z9LC8JvVQMg=="; // Paste encrypted password here
 
         function checkPassword() {
             var userInput = document.getElementById("password").value;
 
-            // Decrypt with the same fixed IV
-            var iv = CryptoJS.enc.Hex.parse("00000000000000000000000000000000");
-            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, CryptoJS.enc.Utf8.parse(secretKey), {
+            // Decrypt the stored password
+            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
                 iv: iv,
                 mode: CryptoJS.mode.CBC,
                 padding: CryptoJS.pad.Pkcs7
