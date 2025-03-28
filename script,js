@@ -1,0 +1,18 @@
+// Encrypted password using a simple encoding (Base64 encoding in this case)
+const encryptedPassword = "cGFzc3dvcmQx"; // This is 'password1' encoded in Base64
+
+// Function to check the password entered by the user
+function checkPassword() {
+    const passwordInput = document.getElementById('passwordInput').value;
+    const message = document.getElementById('message');
+
+    // Decode the encrypted password
+    const decodedPassword = atob(encryptedPassword);
+
+    // Check if the entered password matches the decoded one
+    if (passwordInput === decodedPassword) {
+        message.textContent = "Hello John Wick and Jean!";
+    } else {
+        message.textContent = "No way!";
+    }
+}
