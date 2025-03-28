@@ -45,26 +45,13 @@
                 return;
             }
 
-            // Generate a hash of the entered password using SHA-256
-            const hashedInput = await sha256(passwordInput);
+            try {
+                // Generate a hash of the entered password using SHA-256
+                const hashedInput = await sha256(passwordInput);
+                console.log("Hashed Input:", hashedInput); // Debugging line to check the hashed value
 
-            // Compare the hashed input with the stored encrypted password
-            if (hashedInput === encryptedPassword) {
-                message.textContent = "Hello John Wick and Jean!";
-            } else {
-                message.textContent = "No way!";
-            }
-        }
-
-        // Function to hash the password using SHA-256
-        async function sha256(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-            return hashHex;
-        }
-    </script>
-</body>
-</html>
+                // Compare the hashed input with the stored encrypted password
+                if (hashedInput === encryptedPassword) {
+                    message.textContent = "Hello John Wick and Jean!";
+                } else {
+                    message.textContent =
