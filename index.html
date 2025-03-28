@@ -19,7 +19,7 @@
         function checkPassword() {
             var userInput = document.getElementById("password").value;
 
-            // Decrypt the stored password without an IV
+            // Decrypt the stored password
             var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
                 mode: CryptoJS.mode.ECB,
                 padding: CryptoJS.pad.Pkcs7
