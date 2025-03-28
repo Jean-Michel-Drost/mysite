@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mysite</title>
-    <meta name="description" content="Still in dev.">
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #hidden { display: none; }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>Protected Page</title>
 </head>
 <body>
-    <h1>Mysite</h1>
-    <p>In development</p>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="decryptContent()">Unlock</button>
+    <div id="content" style="display: none;"></div>
     
- 
-   
+    <script>
+        var encryptedData = "your_encrypted_content_here"; // Replace with your actual encrypted content
+
+        function decryptContent() {
+            var pass = document.getElementById("password").value;
+            try {
+                var bytes = CryptoJS.AES.decrypt(encryptedData, pass);
+                var decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+
+                if (!decryptedText) {
+                    alert("Incorrect password!");
+                    return;
+                }
+
+                document.getElementById("content").innerHTML = decryptedText;
+                document.getElementById("content").style.display = "block";
+            } catch (e) {
+                alert("Decryption failed!");
+            }
+        }
+    </script>
 </body>
 </html>
