@@ -3,42 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1-crypto-js.min.js"></script> <!-- CryptoJS library -->
+    <title>Password Verification</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h2>Login</h2>
-
-    <!-- Simple login form -->
-    <form id="loginForm">
-        <label for="password">Enter Password:</label>
-        <input type="password" id="password" required>
-        <button type="submit">Login</button>
-    </form>
-
-    <script>
-        // Simulate fetching the encrypted password (from an external file)
-        const encryptedPassword = "U2FsdGVkX1+WgyQWghm2lR4J/2/fXy4fwHZm6tJ2Zz0=";  // Normally, this would be fetched from a file
-
-        // Secret key for decryption (this must be known only to you)
-        const secretKey = '';
-
-        // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
-
-            const enteredPassword = document.getElementById('password').value;
-
-            // Decrypt the password using CryptoJS
-            const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, secretKey).toString(CryptoJS.enc.Utf8);
-
-            // Check if the entered password matches the decrypted password
-            if (enteredPassword === decryptedPassword) {
-                alert("Welcome!");
-            } else {
-                alert("Wrong Password!");
-            }
-        });
-    </script>
+    <h1>Password Verification</h1>
+    <input type="password" id="passwordInput" placeholder="Enter your password" />
+    <button onclick="checkPassword()">Submit</button>
+    <p id="message"></p>
 </body>
 </html>
