@@ -16,14 +16,12 @@
         var secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456"); // Must match the key used for encryption
         var encryptedStoredPassword = "+oDr11Wz1pdUrMcenhJJGg=="; // Replace with the encrypted password from encrypt.js
 
-
         function checkPassword() {
             var userInput = document.getElementById("password").value;
 
-            // Decrypt the stored password
+            // Decrypt the stored password without an IV
             var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
-                iv: iv,
-                mode: CryptoJS.mode.CBC,
+                mode: CryptoJS.mode.ECB,
                 padding: CryptoJS.pad.Pkcs7
             }).toString(CryptoJS.enc.Utf8);
 
