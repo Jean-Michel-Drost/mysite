@@ -32,33 +32,23 @@
     <p id="message"></p>
 
     <script>
-        // The encrypted password (Base64 encoded SHA-256 hash of 'password1')
-        const encryptedPassword = "8f674fe3e11892dca89c6034fd8c6e350e242c6f64c7f0e0150f94e4db74538b"; 
+        // Encrypted password using a simple encoding (Base64 encoding in this case)
+        const encryptedPassword = "cGFzc3dvcmQx"; // This is 'password1' encoded in Base64
 
         // Function to check the password entered by the user
-        async function checkPassword() {
+        function checkPassword() {
             const passwordInput = document.getElementById('passwordInput').value;
             const message = document.getElementById('message');
 
-            // Generate a hash of the entered password using SHA-256
-            const hashedInput = await sha256(passwordInput);
+            // Decode the encrypted password
+            const decodedPassword = atob(encryptedPassword);
 
-            // Compare the hashed input with the stored encrypted password
-            if (hashedInput === encryptedPassword) {
+            // Check if the entered password matches the decoded one
+            if (passwordInput === decodedPassword) {
                 message.textContent = "Hello John Wick and Jean!";
             } else {
                 message.textContent = "No way!";
             }
-        }
-
-        // Function to hash the password using SHA-256
-        async function sha256(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-            return hashHex;
         }
     </script>
 </body>
