@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1-crypto-js.min.js"></script> <!-- CryptoJS library -->
 </head>
 <body>
-    <h2>Enter Password</h2>
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="checkPassword()">Submit</button>
-    <p id="message"></p>
+    <h2>Login</h2>
+
+    <!-- Simple login form -->
+    <form id="loginForm">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" required>
+        <button type="submit">Login</button>
+    </form>
 
     <script>
-        var secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456"); // Must match the key used for encryption
-        var encryptedStoredPassword = "+oDr11Wz1pdUrMcenhJJGg=="; // Replace with the encrypted password from encrypt.js
+        // Simulate fetching the encrypted password (from an external file)
+        const encryptedPassword = "U2FsdGVkX1+WgyQWghm2lR4J/2/fXy4fwHZm6tJ2Zz0=";  // Normally, this would be fetched from a file
 
-        function checkPassword() {
-            var userInput = document.getElementById("password").value;
+        // Secret key for decryption (this must be known only to you)
+        const secretKey = '';
 
-            // Decrypt the stored password
-            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
-                mode: CryptoJS.mode.ECB,
-                padding: CryptoJS.pad.Pkcs7
-            }).toString(CryptoJS.enc.Utf8);
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
 
-            console.log("Decrypted Password:", decryptedPassword); // For debugging
-            console.log("User Input:", userInput); // For debugging
+            const enteredPassword = document.getElementById('password').value;
 
-            if (userInput === decryptedPassword) {
-                document.getElementById("message").innerText = "✅ Access Granted!";
-                document.body.innerHTML += "<p>Welcome! Here is the protected content.</p>";
+            // Decrypt the password using CryptoJS
+            const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, secretKey).toString(CryptoJS.enc.Utf8);
+
+            // Check if the entered password matches the decrypted password
+            if (enteredPassword === decryptedPassword) {
+                alert("Welcome!");
             } else {
-                document.getElementById("message").innerText = "❌ Wrong password!";
+                alert("Wrong Password!");
             }
-        }
+        });
     </script>
 </body>
 </html>
