@@ -13,45 +13,28 @@
     <p id="message"></p>
 
     <script>
+        var secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456"); // Must match the key used for encryption
+        var iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // Must match the IV used for encryption
+        var encryptedStoredPassword = "3SnO6S3ykZZimQwpJQTJfg=="; // Use the encrypted password from the encrypt.js
+
         function checkPassword() {
-            // Encrypted password
-            const encryptedStoredPassword = "3SnO6S3ykZZimQwpJQTJfg=="; 
-            
-            // Encryption configuration
-            const secretKey = CryptoJS.enc.Utf8.parse("mySecretKey123456");
-            const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+            var userInput = document.getElementById("password").value;
 
-            // Get user input
-            const userInput = document.getElementById("password").value;
+            // Decrypt the stored password
+            var decryptedPassword = CryptoJS.AES.decrypt(encryptedStoredPassword, secretKey, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }).toString(CryptoJS.enc.Utf8);
 
-            try {
-                // Decrypt the stored password
-                const decryptedPassword = CryptoJS.AES.decrypt(
-                    encryptedStoredPassword, 
-                    secretKey, 
-                    {
-                        iv: iv,
-                        mode: CryptoJS.mode.CBC,
-                        padding: CryptoJS.pad.Pkcs7
-                    }
-                ).toString(CryptoJS.enc.Utf8);
+            console.log("Decrypted Password:", decryptedPassword); // For debugging
+            console.log("User Input:", userInput); // For debugging
 
-                // Debug logging
-                console.log("Encrypted Password:", encryptedStoredPassword);
-                console.log("Decrypted Password:", decryptedPassword);
-                console.log("User Input:", userInput);
-
-                // Check password
-                if (userInput === decryptedPassword) {
-                    document.getElementById("message").innerText = "✅ Access Granted!";
-                    document.body.innerHTML += "<p>Welcome! Here is the protected content.</p>";
-                } else {
-                    document.getElementById("message").innerText = "❌ Wrong password!";
-                    console.log("Decryption failed: input does not match decrypted password");
-                }
-            } catch (error) {
-                document.getElementById("message").innerText = "❌ Decryption Error!";
-                console.error("Decryption Error:", error);
+            if (userInput === decryptedPassword) {
+                document.getElementById("message").innerText = "✅ Access Granted!";
+                document.body.innerHTML += "<p>Welcome! Here is the protected content.</p>";
+            } else {
+                document.getElementById("message").innerText = "❌ Wrong password!";
             }
         }
     </script>
