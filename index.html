@@ -32,8 +32,8 @@
     <p id="message"></p>
 
     <script>
-        // The encrypted password (Base64 encoded SHA-256 hash of 'password1')
-        const encryptedPassword = "8f674fe3e11892dca89c6034fd8c6e350e242c6f64c7f0e0150f94e4db74538b"; 
+        // The encrypted password (SHA-256 hash of 'jemoeder' in hexadecimal)
+        const encryptedPassword = "8cfa6a08c5eb8a98e38d91302e1cf8b8ad933cbef46e49d0c8ac08129d17a215"; 
 
         // Function to check the password entered by the user
         async function checkPassword() {
@@ -54,4 +54,21 @@
                 if (hashedInput === encryptedPassword) {
                     message.textContent = "Hello John Wick and Jean!";
                 } else {
-                    message.textContent =
+                    message.textContent = "Incorrect password. Please try again!";
+                }
+            } catch (error) {
+                message.textContent = "Error during password verification.";
+            }
+        }
+
+        // Function to hash the input using SHA-256
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);                // Encode as bytes
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer); // Hash the message
+            const hashArray = Array.from(new Uint8Array(hashBuffer));            // Convert ArrayBuffer to byte array
+            const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); // Convert bytes to hex string
+            return hashHex;
+        }
+    </script>
+</body>
+</html>
